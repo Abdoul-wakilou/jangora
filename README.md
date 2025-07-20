@@ -1,6 +1,6 @@
 # Jangora - Application Mobile de Formation
 
-![Jangora Logo](assets/logo.png) *(à ajouter plus tard)*
+![Jangora Logo](assets/logo.png) *Logo*
 
 Application Flutter pour la formation en ligne avec suivi de progression.
 

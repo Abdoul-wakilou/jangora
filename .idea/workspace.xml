@@ -10,15 +10,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="242b3381-c62b-439a-b4e6-c7eedfc28aeb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/easycode.ignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/auth/auth_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/auth/login_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/auth/register_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/courses/course_detail.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/courses/course_list.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/courses/quiz_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/home/dashboard_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/home/home_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/home/profile_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/models/course_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/models/quiz_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/models/user_model.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/services/auth_service.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/services/database_service.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/services/notification_service.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/splash_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/utils/constants.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/utils/routes.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/utils/theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/widgets/course_card.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/widgets/custom_button.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/widgets/progress_indicator.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jangora.iml" beforeDir="false" afterPath="$PROJECT_DIR$/jangora.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +86,9 @@
   "associatedIndex": 3
 }]]></component>
   <component name="ProjectId" id="309LrI0L2o4j32dHv5dhl3xoifD" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" />
     <panes>
@@ -82,14 +103,15 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "Flutter.main.dart.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "main",
+    "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/HP Elitebook/StudioProjects/jangora",
     "show.migrate.to.gradle.popup": "false"
@@ -111,5 +133,8 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
     </layout>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

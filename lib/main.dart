@@ -36,7 +36,7 @@ class JangoraApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const AuthScreen(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return MediaQuery(

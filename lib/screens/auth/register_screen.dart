@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -9,26 +10,49 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  String? _selectedCountry;
+
+  // Liste de pays avec drapeaux (simplifiée)
+  final List<Map<String, String>> countries = [
+    {'code': 'FR', 'name': 'France', 'emoji': '🇫🇷'},
+    {'code': 'US', 'name': 'États-Unis', 'emoji': '🇺🇸'},
+    {'code': 'DE', 'name': 'Allemagne', 'emoji': '🇩🇪'},
+    {'code': 'JP', 'name': 'Japon', 'emoji': '🇯🇵'},
+    {'code': 'SN', 'name': 'Sénégal', 'emoji': '🇸🇳'},
+    {'code': 'CI', 'name': 'Côte d\'Ivoire', 'emoji': '🇨🇮'},
+  ];
 
   void _register() {
     if (!_formKey.currentState!.validate()) return;
 
     if (_passwordController.text != _confirmPasswordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Les mots de passe ne correspondent pas')),
+        SnackBar(
+          content: const Text('Les mots de passe ne correspondent pas'),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height - 200,
+            left: 20,
+            right: 20,
+          ),
+        ),
       );
       return;
     }
 
     setState(() => _isLoading = true);
 
-    // Simulation d'inscription réussie
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -39,6 +63,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -47,48 +73,141 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(24),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 60),
-              // Logo avec icône
-              const Icon(
-                Icons.school, // Icône éducation
-                size: 100,
-                color: Colors.blue,
+              Text(
+                'Commençons',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurface,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Créez votre compte pour continuer',
+                style: TextStyle(
+                  color: colorScheme.onSurface.withOpacity(0.6),
+                ),
+              ),
+              const SizedBox(height: 32),
+
+              // Champ Prénom
+              TextFormField(
+                controller: _firstNameController,
+                decoration: InputDecoration(
+                  labelText: 'Prénom',
+                  prefixIcon: Icon(
+                    Icons.person_outline,
+                    color: colorScheme.primary,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: colorScheme.surfaceContainerHighest,
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Veuillez entrer votre prénom';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
-              Text(
-                'Inscription',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue.shade800,
+
+              // Champ Nom
+              TextFormField(
+                controller: _lastNameController,
+                decoration: InputDecoration(
+                  labelText: 'Nom',
+                  prefixIcon: Icon(
+                    Icons.person_outline,
+                    color: colorScheme.primary,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: colorScheme.surfaceContainerHighest,
                 ),
-                textAlign: TextAlign.center,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Veuillez entrer votre nom';
+                  }
+                  return null;
+                },
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
+
+              // Champ Pays
+              DropdownButtonFormField<String>(
+                value: _selectedCountry,
+                decoration: InputDecoration(
+                  labelText: 'Pays',
+                  prefixIcon: Icon(
+                    Icons.location_on_outlined,
+                    color: colorScheme.primary,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  filled: true,
+                  fillColor: colorScheme.surfaceContainerHighest,
+                ),
+                items: countries.map((country) {
+                  return DropdownMenuItem<String>(
+                    value: country['code'],
+                    child: Row(
+                      children: [
+                        Text(country['emoji']!),
+                        const SizedBox(width: 12),
+                        Text(country['name']!),
+                      ],
+                    ),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCountry = value;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Veuillez sélectionner votre pays';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+
               // Champ Email
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  prefixIcon: const Icon(Icons.email_outlined),
+                  prefixIcon: Icon(
+                    Icons.email_outlined,
+                    color: colorScheme.primary,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderSide: BorderSide.none,
                   ),
                   filled: true,
-                  fillColor: Colors.grey.shade50,
+                  fillColor: colorScheme.surfaceContainerHighest,
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -102,17 +221,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
               ),
               const SizedBox(height: 20),
+
               // Champ Mot de passe
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Mot de passe',
-                  prefixIcon: const Icon(Icons.lock_outlined),
+                  prefixIcon: Icon(
+                    Icons.lock_outline,
+                    color: colorScheme.primary,
+                  ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword
                           ? Icons.visibility_off_outlined
                           : Icons.visibility_outlined,
+                      color: colorScheme.onSurfaceVariant,
                     ),
                     onPressed: () {
                       setState(() => _obscurePassword = !_obscurePassword);
@@ -120,14 +244,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderSide: BorderSide.none,
                   ),
                   filled: true,
-                  fillColor: Colors.grey.shade50,
+                  fillColor: colorScheme.surfaceContainerHighest,
                 ),
                 obscureText: _obscurePassword,
                 validator: (value) {
@@ -141,17 +261,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
               ),
               const SizedBox(height: 20),
+
               // Champ Confirmation mot de passe
               TextFormField(
                 controller: _confirmPasswordController,
                 decoration: InputDecoration(
                   labelText: 'Confirmer le mot de passe',
-                  prefixIcon: const Icon(Icons.lock_outlined),
+                  prefixIcon: Icon(
+                    Icons.lock_outline,
+                    color: colorScheme.primary,
+                  ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureConfirmPassword
                           ? Icons.visibility_off_outlined
                           : Icons.visibility_outlined,
+                      color: colorScheme.onSurfaceVariant,
                     ),
                     onPressed: () {
                       setState(() => _obscureConfirmPassword = !_obscureConfirmPassword);
@@ -159,14 +284,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
+                    borderSide: BorderSide.none,
                   ),
                   filled: true,
-                  fillColor: Colors.grey.shade50,
+                  fillColor: colorScheme.surfaceContainerHighest,
                 ),
                 obscureText: _obscureConfirmPassword,
                 validator: (value) {
@@ -179,7 +300,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 32),
+
               // Bouton d'inscription
               ElevatedButton(
                 onPressed: _isLoading ? null : _register,
@@ -188,8 +310,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
+                  backgroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onPrimary,
                   elevation: 0,
                 ),
                 child: _isLoading
@@ -203,23 +325,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 )
                     : const Text(
                   'S\'inscrire',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
+
               // Lien vers connexion
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Déjà un compte ? '),
+                  Text(
+                    'Déjà un compte ? ',
+                    style: TextStyle(
+                      color: colorScheme.onSurface.withOpacity(0.6),
+                    ),
+                  ),
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text(
+                    child: Text(
                       'Se connecter',
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: colorScheme.primary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
